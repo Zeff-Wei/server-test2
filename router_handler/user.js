@@ -6,10 +6,9 @@ const fs = require('fs-extra')
 
 // 注册用户的处理函数
 exports.regUser = (req, res) => {
-  // res.send('reguser OK')
+
   // 接收表单数据
   const userinfo = req.body
-  console.log(userinfo)
   // 判断数据是否合法
   let username = userinfo.username
   let password = userinfo.password

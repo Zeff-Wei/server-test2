@@ -1,1 +1,19 @@
-[{"username":"cc","password":"99"},{"username":"ls","password":"999"},{"username":"ww","password":"1"},{"username":"www","password":"1","orderid":[]}]
+[
+  {
+    "username": "cc",
+    "password": "99"
+  },
+  {
+    "username": "ls",
+    "password": "999"
+  },
+  {
+    "username": "ww",
+    "password": "1"
+  },
+  {
+    "username": "www",
+    "password": "1",
+    "orderid": []
+  }
+]
