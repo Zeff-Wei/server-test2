@@ -1,1 +1,14 @@
-[{"username":"zs","password":"123","id":"1"},{"username":"ls","password":"123","id":"2"},{"username":"wzw","password":"1","orderid":[]},{"username":"wwrwd","password":"1","sellid":[],"buyid":[]}]
+[
+  {
+    "username": "张三",
+    "password": "1",
+    "sellid": [],
+    "buyid": []
+  },
+  {
+    "username": "李四",
+    "password": "2",
+    "sellid": [],
+    "buyid": []
+  }
+]

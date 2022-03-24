@@ -1,22 +1,26 @@
 [
   {
-    "id": "1",
-    "title": "耳机",
-    "price": "99",
-    "describe": "好",
-    "tags": "电子产品",
-    "picture": [
-      "image/1.JPG"
+    "title": "手机",
+    "price": "600",
+    "describe": "很新",
+    "classification": "电子产品",
+    "id": "GkfmOYrSISEtZw-MJeIk3",
+    "edittime": 1648114463272,
+    "status": 1,
+    "image": [
+      "./data/image/1648114464021.jpeg"
     ]
   },
   {
-    "id": "2",
-    "title": "纸巾",
-    "price": "9",
-    "describe": "好",
-    "tags": "生活用品",
-    "picture": [
-      "./image/2.jpg"
+    "title": "手机",
+    "price": "600",
+    "describe": "很新",
+    "classification": "电子产品",
+    "id": "XYKHvuI6kqJABA4wBbzt2",
+    "edittime": 1648114821212,
+    "status": 1,
+    "image": [
+      "./data/image/1648114823536.jpeg"
     ]
   }
 ]

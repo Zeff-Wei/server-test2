@@ -16,7 +16,7 @@ goods.post('/classification', goodsHandler.classification)
 // 添加商品
 goods.post('/add', picture.single('test'), goodsHandler.add)
 // 编辑商品
-goods.post('/edit', goodsHandler.edit)
+goods.post('/edit', picture.single('test'), goodsHandler.edit)
 // 删除商品
 goods.post('/delete', goodsHandler.delete)
 
