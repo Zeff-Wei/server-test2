@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "title": "耳机",
+    "price": "99",
+    "describe": "好",
+    "tags": "电子产品",
+    "picture": [
+      "image/1.JPG"
+    ]
+  },
+  {
+    "id": "2",
+    "title": "纸巾",
+    "price": "9",
+    "describe": "好",
+    "tags": "生活用品",
+    "picture": [
+      "./image/2.jpg"
+    ]
+  }
+]
