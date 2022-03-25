@@ -9,7 +9,7 @@ const path = require('path');
 
 exports.search = (req, res) => {
   // console.log(req.body)
-
+  // console.log(req.user)
   let keyword = req.body.keyword
   fs.readJson('./data/goods.json', (err, obj) => {
     try {

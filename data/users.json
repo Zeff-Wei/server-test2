@@ -16,5 +16,17 @@
     "password": "3",
     "sellid": [],
     "buyid": []
+  },
+  {
+    "username": "赵六",
+    "password": "3",
+    "sellid": [],
+    "buyid": []
+  },
+  {
+    "username": "吴七",
+    "password": "$2a$10$5RuolJIW1uH77eoQvmYv.u7pOkZWH7pl3fu6zE//At.52YbXZBg3m",
+    "sellid": [],
+    "buyid": []
   }
 ]
