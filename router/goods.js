@@ -6,7 +6,7 @@ const goodsHandler = require('../router_handler/goods')
 
 //上传图片的模板
 var multer = require('multer');
-//生成的图片放入image文件夹下
+//生成的图片放入upload文件夹下
 var picture = multer({ dest: 'data/upload' })
 
 // 搜索商品
@@ -19,5 +19,10 @@ goods.post('/add', picture.single('test'), goodsHandler.add)
 goods.post('/edit', picture.single('test'), goodsHandler.edit)
 // 删除商品
 goods.post('/delete', goodsHandler.delete)
-
+//获取商品
+goods.post('/getGoods', goodsHandler.getGoods)
+//获取图片
+// goods.get('/data/image',(req, res) => {
+//   res.sendFile(__dirname + '/public/1.png')
+// })
 module.exports = goods

@@ -8,7 +8,7 @@ const path = require('path');
 
 
 exports.search = (req, res) => {
-  // console.log(req.body)
+  console.log(req.body)
   // console.log(req.user)
   let keyword = req.body.keyword
   fs.readJson('./data/goods.json', (err, obj) => {
@@ -66,7 +66,7 @@ exports.add = (req, res) => {
     //1.图片的绝对路径
     //2.写入的内容
     //3.回调函数
-    fs.writeFile(path.join(__dirname, '../data/image/' + keepname), data, (err) => {
+    fs.writeFile(path.join(__dirname, '../public/image/' + keepname), data, (err) => {
       if (err) {
         console.log(err)
         return res.send('写入失败')
@@ -77,7 +77,7 @@ exports.add = (req, res) => {
       })
       // res.send({ err: 0, msg: '图片上传ok', })
 
-      newgoods.image.push('./data/image/' + keepname)
+      newgoods.image.push('http://127.0.0.1:3000/public/image/' + keepname)
       let _goods = []
       fs.readJson('./data/goods.json', (err, obj) => {
         _goods = obj
@@ -125,7 +125,7 @@ exports.edit = (req, res) => {
     //1.图片的绝对路径
     //2.写入的内容
     //3.回调函数
-    fs.writeFile(path.join(__dirname, '../data/image/' + keepname), data, (err) => {
+    fs.writeFile(path.join(__dirname, '../public/image/' + keepname), data, (err) => {
       if (err) {
         console.log(err)
         return res.send('写入失败')
@@ -134,7 +134,7 @@ exports.edit = (req, res) => {
         if (err) throw err
       })
       // res.send({ err: 0, msg: '图片修改ok', })
-      newgoods.image.push('./data/image/' + keepname)
+      newgoods.image.push('http://127.0.0.1:3000/public/image/' + keepname)
       fs.readJson('./data/goods.json', (err, obj) => {
         let oldgoodsindex = obj.findIndex((item) => item.id == newgoods.id)
         let oldgoods = obj[oldgoodsindex]
@@ -170,4 +170,20 @@ exports.delete = (req, res) => {
       return res.send('delete success')
     })
   })
+}
+
+exports.getGoods = (req, res) => {
+  console.log(req.body)
+  // console.log(req.user)
+  let goodsId = req.body.goodsId
+  fs.readJson('./data/goods.json', (err, obj) => {
+    try {
+      obj = obj.filter((item) => item.id == goodsId && item.status !== -1)
+      // console.log(_goods)
+      return res.send(obj)
+    } catch (e) {
+      console.error(e)
+    }
+  })
+
 }

@@ -1,26 +1,14 @@
 [
   {
-    "title": "石头",
+    "title": "高效",
     "price": "5",
     "describe": "很新",
     "classification": "艺术物品",
-    "id": "2ppQdK8Y2btZQyG0L6WDi",
+    "id": "76_jq9NXsq8dGUbj6-NZt",
     "status": 1,
-    "edittime": 1648127532323,
+    "edittime": 1648725363997,
     "image": [
-      "./data/image/1648127535107.jpeg"
-    ]
-  },
-  {
-    "title": "招聘",
-    "price": "5",
-    "describe": "很新",
-    "classification": "艺术物品",
-    "id": "bV3kQKiWXQCTXHts-t9bh",
-    "status": 1,
-    "edittime": 1648135166291,
-    "image": [
-      "./data/image/1648135168745.jpeg"
+      "http://127.0.0.1:3000/public/image/1648725365710.jpeg"
     ]
   }
 ]

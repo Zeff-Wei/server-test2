@@ -1,5 +1,6 @@
 // 导入 express 模块
 const express = require('express')
+// var unless = require('express-unless');
 // 创建 express 的服务器实例
 const app = express()
 const joi = require('joi')
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
   res.cc = function (err, status = 1) {
     res.send({
       status,
+      //判断err是不是Error的实例 还是字符串
       message: err instanceof Error ? err.message : err,
     })
   }
@@ -26,13 +28,17 @@ app.use((req, res, next) => {
 // 一定要在路由之前配置解析 Token 的中间件
 const expressJWT = require('express-jwt')
 const config = require('./config')
-app.use(expressJWT({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({ path: [/^\/api/] }))
+// app.use(expressJWT({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({ path: [/^\/api/] }))
 
+// app.use(expressJWT({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({ path: [/^\/data/] }))
+app.use(expressJWT({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({ path: [/public/, /api/] }))
 
 const goodsRouter = require('./router/goods')
 const userRouter = require('./router/user')
 app.use('/api', userRouter)
 app.use('/api', goodsRouter)
+// app.use(express.static('public'))
+app.use('/public', express.static(__dirname + '/public'));
 
 // 定义错误级别的中间件
 app.use((err, req, res, next) => {
