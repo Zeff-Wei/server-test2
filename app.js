@@ -35,8 +35,13 @@ app.use(expressJWT({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unles
 
 const goodsRouter = require('./router/goods')
 const userRouter = require('./router/user')
+const uploadRouter = require('./router/upload')
+const dealRouter = require('./router/deal')
+app.use('/api', dealRouter)
+app.use('/api', uploadRouter)
 app.use('/api', userRouter)
 app.use('/api', goodsRouter)
+
 // app.use(express.static('public'))
 app.use('/public', express.static(__dirname + '/public'));
 
@@ -54,5 +59,5 @@ app.use((err, req, res, next) => {
 
 // 调用 app.listen 方法，指定端口号并启动web服务器
 app.listen(3000, function () {
-  console.log('api server running at http://127.0.0.1:3000')
+  // console.log('api server running at http://127.0.0.1:3000')
 })
