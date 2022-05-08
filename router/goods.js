@@ -25,4 +25,8 @@ goods.post('/getGoods', goodsHandler.getGoods)
 // goods.get('/data/image',(req, res) => {
 //   res.sendFile(__dirname + '/public/1.png')
 // })
+//取消出售
+goods.post('/unSell', goodsHandler.unSell)
+//删除购买订单
+goods.post('/deleteOrder', goodsHandler.deleteOrder)
 module.exports = goods

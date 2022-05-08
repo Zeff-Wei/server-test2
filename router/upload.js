@@ -2,7 +2,8 @@ const express = require('express');
 const upload = express.Router();
 const fs = require('fs-extra');
 const path = require('path');
-const serverUrl = 'http://127.0.0.1:3000';
+// const serverUrl = 'http://127.0.0.1:3000';
+const serverUrl = 'http://www.wulies.xyz:3001';
 //上传图片的模板
 var multer = require('multer');
 //生成的图片放入images文件夹下

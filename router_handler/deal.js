@@ -64,12 +64,13 @@ exports.buy = (req, res) => {
   //修改用户信息  将订单号分别插入买家和卖家的信息
   fs.readJson('./data/users.json', (err, obj) => {
     let sellerIndex = obj.findIndex((item) => item.username === seller)
-    obj[sellerIndex].sellid.push(orderNumber)
-    console.log(obj[sellerIndex])
+    obj[sellerIndex].sellOrderNumber.push(orderNumber)
+    console.log(obj[sellerIndex], 'this is sellerInfo')
 
     let buyerIndex = obj.findIndex((item) => item.username === buyer)
-    obj[buyerIndex].buyid.push(orderNumber)
-    console.log(obj[buyerIndex])
+    obj[buyerIndex].buyOrderNumber.push(orderNumber)
+    obj[buyerIndex].buyid.push(id)
+    console.log(obj[buyerIndex], 'this is buyerInfo')
 
     fs.writeJSON('./data/users.json', obj, err => {
       if (err) return res.send(err)

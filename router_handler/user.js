@@ -7,19 +7,21 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 // 导入全局的配置文件
 const config = require('../config')
+const { nanoid } = require('nanoid')
 
 // 注册用户的处理函数
 exports.regUser = (req, res) => {
   // 接收表单数据
   let { username, password, phoneNumber } = req.body
+  console.log(req.body, phoneNumber, 'this is reguser')
   // 判断数据是否合法
-  if (!username || !password || !phoneNumber) {
-    return res.send({ status: 1, message: '用户名/密码/手机号不能为空！' })
+  if (!username || !password) {
+    return res.send({ status: 1, message: '用户名/密码不能为空！' })
   } else {
     fs.readJson('./data/users.json', (err, obj) => {
       //对比数据['username','phongNumber']并返回对应数据
       const getUsername = (username) => obj.find(res => res.username === username);
-      const getPhoneNumber = (phoneNumber) => obj.find(res => res.phoneNumber === phoneNumber);
+      const getPhoneNumber = (phoneNumber) => obj.find(res => (res.phoneNumber === phoneNumber));
       if (getUsername(username) || getPhoneNumber(phoneNumber)) { return res.send({ status: 1, message: '用户名/手机号已被占用' }) }
       else {
         //密码加密
@@ -29,10 +31,14 @@ exports.regUser = (req, res) => {
           username,
           password,
           phoneNumber,
+          userid: nanoid(),
+          avatar: 'http://www.wulies.xyz:3001/public/avatar/nopic.png',
           sellid: [],
           buyid: [],
           sellOrderNumber: [],
-          buyOrderNumber: []
+          buyOrderNumber: [],
+          //收藏
+          collect: []
         }
         obj.push(newUser)
         //写入新用户
@@ -51,6 +57,7 @@ exports.regUser = (req, res) => {
 
 // 登录的处理函数
 exports.login = (req, res) => {
+  console.log(req.body, 'this.is login')
   // 接收表单数据
   let { username, password } = req.body
   // 判断数据是否合法
@@ -78,6 +85,8 @@ exports.login = (req, res) => {
         status: 0,
         message: '登录成功！',
         token: 'Bearer ' + tokenStr,
+        userid: user.userid,
+        avatar: user.avatar,
       })
     }
     )
@@ -89,15 +98,42 @@ exports.getUserInfo = (req, res) => {
   let userInfo = {}
   fs.readJson('./data/users.json', (err, obj) => {
     const getUser = (username) => obj.find(res => (res.username === username) || (res.phoneNumber === username))
-    console.log(getUser(username))
+    // console.log(getUser(username))
     let user = getUser(username)
     userInfo = {
       username: user.username,
       sellid: user.sellid,
       buyid: user.buyid,
-      phoneNumber: user.phoneNumber
+      phoneNumber: user.phoneNumber,
+      sellOrderNumber: user.sellOrderNumber,
+      buyOrderNumber: user.buyOrderNumber,
+      collect: user.collect,
+      avatar: user.avatar,
+      userid: user.userid
     }
-    console.log(userInfo)
+    // console.log(userInfo)
+    if (err) return res.send(err)
+    return res.send(userInfo)
+  })
+}
+
+//查找用户
+exports.findUserById = (req, res) => {
+  console.log(req.body)
+  let { userid } = req.body
+  let userInfo = {}
+  fs.readJson('./data/users.json', (err, obj) => {
+    const getUser = (userid) => obj.find(res => (res.userid === userid))
+    // console.log(getUser(username))
+    let user = getUser(userid)
+    if (user == null) return res.send('用户未找到')
+    userInfo = {
+      username: user.username,
+      avatar: user.avatar,
+      userid: user.userid
+    }
+
+    // console.log(userInfo)
     if (err) return res.send(err)
     return res.send(userInfo)
   })
@@ -136,4 +172,45 @@ exports.rootLogin = (req, res) => {
     }
     )
   }
+}
+
+//收藏
+exports.keep = (req, res) => {
+  // console.log(req.body)
+  let username = req.body.username
+  let goodsId = req.body.goodsId
+  let isKeep = req.body.isKeep
+  if (isKeep == 'true') {
+    fs.readJson('./data/users.json', (err, obj) => {
+      let userindex = obj.findIndex((item) => item.username == username)
+      let user = obj[userindex]
+      user.collect.push(goodsId)
+      //将旧数据替换
+      obj.splice(userindex, 1, user)
+      fs.writeJSON('./data/users.json', obj, err => {
+        if (err) throw err
+        console.log('add collect success')
+        return res.send('add collect success')
+      })
+      // return res.send('收藏成功')
+    })
+  } else if (isKeep == 'false') {
+    fs.readJson('./data/users.json', (err, obj) => {
+      let userindex = obj.findIndex((item) => item.username == username)
+      let user = obj[userindex]
+      collectIndex = user.collect.findIndex((item) => item == goodsId)
+      user.collect.splice(collectIndex, 1)
+      //将旧数据替换
+      obj.splice(userindex, 1, user)
+      fs.writeJSON('./data/users.json', obj, err => {
+        if (err) throw err
+        console.log('add collect success')
+        return res.send('add collect success')
+      })
+      // return res.send('取消收藏成功')
+    })
+  }
+
+
+
 }

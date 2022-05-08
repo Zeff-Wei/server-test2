@@ -12,7 +12,7 @@ exports.search = (req, res) => {
   // console.log(req.user)
   let keyword = req.body.keyword
   fs.readJson('./data/goods.json', (err, obj) => {
-    obj = obj.filter((item) => item.title.includes(keyword) && item.status !== -1)
+    obj = obj.filter((item) => item.title.includes(keyword) && item.status == 1)
     // console.log(_goods)
     if (err) throw err
     return res.send(obj)
@@ -34,7 +34,7 @@ exports.classification = (req, res) => {
 }
 
 exports.add = (req, res) => {
-  let { title, price, describe, classification, seller, images } = req.body
+  let { title, price, describe, classification, seller, sellerid, images } = req.body
   let id = nanoid()
   console.log(req.body)
   // let title = req.body.title
@@ -46,6 +46,7 @@ exports.add = (req, res) => {
     describe,
     classification,
     seller,
+    sellerid,
     id,
     status: 1,
     edittime,
@@ -79,7 +80,7 @@ exports.add = (req, res) => {
 }
 
 exports.edit = (req, res) => {
-  let { title, price, describe, classification, id, seller, images } = req.body
+  let { title, price, describe, classification, id, seller, sellerid, images } = req.body
   let edittime = new Date().getTime()
   let newgoods = {
     title,
@@ -88,6 +89,7 @@ exports.edit = (req, res) => {
     classification,
     id,
     seller,
+    sellerid,
     edittime,
     status: 1,
     images: []
@@ -177,5 +179,67 @@ exports.getGoods = (req, res) => {
     return res.send(obj)
 
   })
+}
 
+//取消出售
+exports.unSell = (req, res) => {
+  let { goodsId, username } = req.body
+  //修改商品信息
+  fs.readJson('./data/goods.json', (err, obj) => {
+    let index = obj.findIndex((item) => item.id == goodsId)
+    console.log(index)
+    //修改商品状态为-2  代表取消出售
+    obj[index].status = -2
+    fs.writeJSON('./data/goods.json', obj, err => {
+      if (err) {
+        console.log(err)
+        return res.send(err)
+      }
+      console.log('edit goods.status(-2) success')
+    })
+    if (err) {
+      console.log(err)
+      return res.send(err)
+    }
+  })
+  //修改用户信息
+  fs.readJson('./data/users.json', (err, obj) => {
+    let sellerIndex = obj.findIndex((item) => item.username === username)
+    let sellidIndex = obj[sellerIndex].sellid.findIndex((item) => item == goodsId)
+    obj[sellerIndex].sellid.splice(sellidIndex, 1)
+    console.log(obj[sellerIndex], 'this is sellerInfo')
+    fs.writeJSON('./data/users.json', obj, err => {
+      if (err) return res.send(err)
+      console.log('delete sellid success')
+      // return res.send('edit success')
+    })
+
+    if (err) return res.send(err)
+    // return res.send(userInfo)
+  })
+
+  return res.send({ status: 0, message: '取消出售成功！' })
+}
+
+//删除购买的订单
+exports.deleteOrder = (req, res) => {
+  let { goodsId, username } = req.body
+  //修改商品信息
+  //修改用户信息
+  fs.readJson('./data/users.json', (err, obj) => {
+    let buyerIndex = obj.findIndex((item) => item.username === username)
+    let buyidIndex = obj[buyerIndex].buyid.findIndex((item) => item == goodsId)
+    obj[buyerIndex].buyid.splice(buyidIndex, 1)
+    console.log(obj[buyerIndex], 'this is sellerInfo')
+    fs.writeJSON('./data/users.json', obj, err => {
+      if (err) return res.send(err)
+      console.log('delete buyid success')
+      // return res.send('edit success')
+    })
+
+    if (err) return res.send(err)
+    // return res.send(userInfo)
+  })
+
+  return res.send({ status: 0, message: '取消出售成功！' })
 }
